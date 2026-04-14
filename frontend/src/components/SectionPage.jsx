@@ -1,13 +1,13 @@
 function SectionPage({ title, description, points = [] }) {
   return (
     <section className="space-y-8">
-      <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
+      <div className="soft-panel rounded-[2.25rem] px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">StayNest</p>
-        <h1 className="display-serif mt-4 text-5xl text-[#102a43] sm:text-6xl">{title}</h1>
+        <h1 className="display-serif mt-4 text-3xl text-[#102a43] sm:text-5xl lg:text-6xl">{title}</h1>
         <p className="mt-4 max-w-2xl text-[#52606d]">{description}</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {points.map((point) => (
           <article key={point.title} className="soft-panel rounded-[1.75rem] p-6">
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#829ab1]">

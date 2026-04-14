@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import UserModel from '../models/user.model.js';
 
 const allowedRoles = ['student', 'renter', 'service_provider', 'admin'];
+const formatRoleLabel = (role) => role.replaceAll('_', ' ');
 const calculateAge = (dob) => {
   if (!dob) {
     return null;
@@ -64,7 +65,7 @@ export const signup = async (req, res, next) => {
       });
     }
 
-    const existingUser = await UserModel.findByEmail(email);
+    const existingUser = await UserModel.findByEmailAndRole(email, role);
 
     if (existingUser) {
       return res.status(409).json({
@@ -106,7 +107,7 @@ export const signup = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -115,7 +116,16 @@ export const login = async (req, res, next) => {
       });
     }
 
-    const user = await UserModel.findByEmail(email, { includePassword: true });
+    if (!role) {
+      return res.status(400).json({
+        success: false,
+        message: 'Role is required for login.',
+      });
+    }
+
+    const user = await UserModel.findByEmailAndRole(email, role, {
+      includePassword: true,
+    });
 
     if (!user) {
       return res.status(401).json({

@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -23,7 +24,26 @@ cloudinary.config({
   cloud_name: CLOUDINARY_CLOUD_NAME,
   api_key: CLOUDINARY_API_KEY,
   api_secret: CLOUDINARY_API_SECRET,
+  secure: true,
 });
+
+const getCloudinaryErrorMessage = (error) => {
+  if (!error) {
+    return 'Unknown Cloudinary upload error.';
+  }
+
+  if (typeof error === 'string') {
+    return error;
+  }
+
+  return (
+    error?.message ||
+    error?.response?.data?.error?.message ||
+    error?.error?.message ||
+    error?.name ||
+    JSON.stringify(error)
+  );
+};
 
 export const uploadImage = async (file) => {
   if (!file) {
@@ -31,7 +51,11 @@ export const uploadImage = async (file) => {
   }
 
   try {
-    const uploadTarget = file.path || file.tempFilePath;
+    const uploadTarget = file.path
+      ? path.resolve(file.path)
+      : file.tempFilePath
+        ? path.resolve(file.tempFilePath)
+        : null;
 
     if (!uploadTarget) {
       throw new Error('Uploaded file path is missing.');
@@ -43,12 +67,13 @@ export const uploadImage = async (file) => {
     });
 
     return {
-      secure_url: result.secure_url,
+      secure_url: result.secure_url || result.url,
       public_id: result.public_id,
     };
   } catch (error) {
-    console.error('Cloudinary upload failed:', error.message);
-    throw error;
+    const message = getCloudinaryErrorMessage(error);
+    console.error('Cloudinary upload failed:', message);
+    throw new Error(message);
   }
 };
 

@@ -33,20 +33,20 @@ function NotificationsPage() {
 
   return (
     <section className="space-y-8">
-      <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
+      <div className="soft-panel rounded-[2.25rem] px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">
           Notifications
         </p>
         <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h1 className="display-serif text-5xl text-[#102a43] sm:text-6xl">
+            <h1 className="display-serif text-3xl text-[#102a43] sm:text-5xl lg:text-6xl">
               Live updates from your network.
             </h1>
             <p className="mt-4 max-w-2xl text-[#52606d]">
               Message alerts, post reactions, and account activity all arrive here without a page refresh.
             </p>
           </div>
-          <div className="page-chip rounded-[1.5rem] px-5 py-4 text-sm font-semibold text-[#102a43]">
+          <div className="page-chip rounded-[1.5rem] px-4 py-3 text-sm font-semibold text-[#102a43] sm:px-5 sm:py-4">
             Real-time socket updates from the backend
           </div>
         </div>
@@ -61,7 +61,7 @@ function NotificationsPage() {
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#829ab1]">
             Inbox
           </p>
-          <h2 className="display-serif mt-3 text-4xl text-[#102a43]">Coming Soon</h2>
+          <h2 className="display-serif mt-3 text-2xl text-[#102a43] sm:text-4xl">Coming Soon</h2>
           <p className="mt-3 text-[#52606d]">
             Your notifications will appear here when activity starts.
           </p>

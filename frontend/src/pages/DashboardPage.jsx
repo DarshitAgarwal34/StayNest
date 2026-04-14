@@ -122,6 +122,7 @@ function DashboardPage() {
   }, [allMessages, conversationList]);
 
   const role = user?.role || 'student';
+  const selectedConversationId = activeConversationId || conversations[0]?.id || null;
 
   useEffect(() => {
     if (user?.role !== 'student') {
@@ -130,12 +131,12 @@ function DashboardPage() {
 
     const socket = connectSocket();
 
-    if (activeConversationId) {
-      joinConversation(activeConversationId);
+    if (selectedConversationId) {
+      joinConversation(selectedConversationId);
     }
 
     const handleMessage = (message) => {
-      if (Number(message.conversation_id) === Number(activeConversationId)) {
+      if (Number(message.conversation_id) === Number(selectedConversationId)) {
         setThreadMessages((currentMessages) => {
           const exists = currentMessages.some((item) => item.id === message.id);
           return exists ? currentMessages : [...currentMessages, message].slice(-40);
@@ -162,16 +163,16 @@ function DashboardPage() {
       socket.off('newMessage', handleMessage);
       socket.off('notification', handleNotification);
     };
-  }, [activeConversationId, user?.role]);
+  }, [selectedConversationId, user?.role]);
 
   useEffect(() => {
     const loadThread = async () => {
-      if (!activeConversationId) {
+      if (!selectedConversationId) {
         return;
       }
 
       try {
-        const response = await fetchMessagesByConversation(activeConversationId);
+        const response = await fetchMessagesByConversation(selectedConversationId);
         setThreadMessages(response?.data || []);
       } catch {
         setThreadMessages([]);
@@ -179,7 +180,7 @@ function DashboardPage() {
     };
 
     loadThread();
-  }, [activeConversationId]);
+  }, [selectedConversationId]);
 
   const cards = [
     { label: 'Active threads', value: String(conversations.length).padStart(2, '0') },
@@ -203,8 +204,8 @@ function DashboardPage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <article className="rounded-[1.5rem] bg-[#102a43] p-5 text-white">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <article className="rounded-[1.5rem] bg-[#102a43] p-5 text-white">
             <p className="text-[11px] uppercase tracking-[0.24em] text-white/70">My listings</p>
             <p className="mt-4 display-serif text-5xl">{String(ownProperties.length).padStart(2, '0')}</p>
           </article>
@@ -220,20 +221,20 @@ function DashboardPage() {
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="soft-panel rounded-[2rem] p-6">
-            <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">Action</p>
                 <h2 className="display-serif mt-2 text-3xl text-[#102a43]">Publish a property</h2>
               </div>
-              <Link to="/properties/new" className="rounded-full bg-[#102a43] px-5 py-3 text-sm font-semibold text-[#f7f1e8]">
+              <Link to="/properties/new" className="rounded-full bg-[#102a43] px-5 py-3 text-center text-sm font-semibold text-[#f7f1e8] sm:text-left">
                 Add Property
               </Link>
             </div>
 
             <div className="mt-6 space-y-3">
-              <Link to="/my-properties" className="block rounded-[1.25rem] bg-white px-4 py-4 font-semibold text-[#102a43]">
-                View my properties
-              </Link>
+                <Link to="/my-properties" className="block rounded-[1.25rem] bg-white px-4 py-4 font-semibold text-[#102a43]">
+                  View my properties
+                </Link>
               <Link to="/properties/requests" className="block rounded-[1.25rem] bg-white px-4 py-4 font-semibold text-[#102a43]">
                 Review requests
               </Link>
@@ -299,7 +300,7 @@ function DashboardPage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           <article className="rounded-[1.5rem] bg-[#102a43] p-5 text-white">
             <p className="text-[11px] uppercase tracking-[0.24em] text-white/70">My services</p>
             <p className="mt-4 display-serif text-5xl">{String(ownServices.length).padStart(2, '0')}</p>
@@ -316,12 +317,12 @@ function DashboardPage() {
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="soft-panel rounded-[2rem] p-6">
-            <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">Action</p>
                 <h2 className="display-serif mt-2 text-3xl text-[#102a43]">Publish a service</h2>
               </div>
-              <Link to="/services/new" className="rounded-full bg-[#102a43] px-5 py-3 text-sm font-semibold text-[#f7f1e8]">
+              <Link to="/services/new" className="rounded-full bg-[#102a43] px-5 py-3 text-center text-sm font-semibold text-[#f7f1e8] sm:text-left">
                 Add Service
               </Link>
             </div>
@@ -375,7 +376,7 @@ function DashboardPage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
             ['Total users', counts.totalUsers || 0],
             ['Total listings', counts.totalListings || 0],
@@ -389,7 +390,7 @@ function DashboardPage() {
           ))}
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {[
             ['Manage Students', counts.students || 0, '/admin/users'],
             ['Manage Renters', counts.renters || 0, '/admin/users'],
@@ -466,26 +467,26 @@ function DashboardPage() {
 
   return (
     <section className="space-y-8">
-      <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
+      <div className="soft-panel rounded-[2.25rem] px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#6b8e72]">
           Dashboard
         </p>
         <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h1 className="display-serif text-5xl text-[#102a43] sm:text-6xl">
+            <h1 className="display-serif text-3xl text-[#102a43] sm:text-4xl lg:text-6xl">
               Your space, threads, and updates in one calm board.
             </h1>
             <p className="mt-4 max-w-2xl text-[#52606d]">
               Quick messages, live notifications, and your active conversations all sit here without the clutter of a multi-panel app.
             </p>
           </div>
-          <div className="page-chip rounded-[1.5rem] px-5 py-4 text-sm font-semibold text-[#102a43]">
+          <div className="page-chip rounded-[1.5rem] px-4 py-3 text-sm font-semibold text-[#102a43] sm:px-5 sm:py-4">
             {user?.name || 'Guest'}
           </div>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {cards.map((card, index) => (
           <div
             key={card.label}
@@ -494,19 +495,19 @@ function DashboardPage() {
             }`}
           >
             <p className="text-[11px] uppercase tracking-[0.24em] text-white/70">{card.label}</p>
-            <p className="mt-4 display-serif text-5xl">{card.value}</p>
+            <p className="mt-4 display-serif text-3xl sm:text-5xl">{card.value}</p>
           </div>
         ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <section className="soft-panel rounded-[2rem] p-6">
-          <div className="flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">
                 Conversations
               </p>
-              <h2 className="display-serif mt-2 text-3xl text-[#102a43]">
+              <h2 className="display-serif mt-2 text-2xl text-[#102a43] sm:text-3xl">
                 Start or open a thread
               </h2>
             </div>
@@ -572,7 +573,7 @@ function DashboardPage() {
               ))
             ) : (
               <div className="empty-state rounded-[1.25rem] p-6 text-center text-[#52606d]">
-                <p className="display-serif text-3xl text-[#102a43]">Coming Soon</p>
+                <p className="display-serif text-2xl text-[#102a43] sm:text-3xl">Coming Soon</p>
                 <p className="mt-2 text-sm">
                   Conversations will appear after you create a new thread or receive a message.
                 </p>
@@ -582,12 +583,12 @@ function DashboardPage() {
         </section>
 
         <section className="soft-panel rounded-[2rem] p-6">
-          <div className="flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#6b8e72]">
                 Thread
               </p>
-              <h2 className="display-serif mt-2 text-3xl text-[#102a43]">
+              <h2 className="display-serif mt-2 text-2xl text-[#102a43] sm:text-3xl">
                 Conversation-based chat
               </h2>
             </div>
@@ -598,7 +599,7 @@ function DashboardPage() {
 
           {!threadMessages.length ? (
             <div className="empty-state mt-6 rounded-[1.5rem] p-8 text-center">
-              <h3 className="display-serif text-3xl">Coming Soon</h3>
+              <h3 className="display-serif text-2xl sm:text-3xl">Coming Soon</h3>
               <p className="mt-2 text-sm text-[#52606d]">
                 Your active thread will appear here once messages are available.
               </p>
@@ -617,7 +618,7 @@ function DashboardPage() {
             </div>
           )}
 
-          <form className="mt-6 grid gap-3 md:grid-cols-[1fr_auto]" onSubmit={handleSendMessage}>
+          <form className="mt-6 grid gap-3 sm:grid-cols-[1fr_auto]" onSubmit={handleSendMessage}>
             <input
               type="text"
               value={messageDraft}
@@ -627,7 +628,7 @@ function DashboardPage() {
             />
             <button
               type="submit"
-              className="rounded-full bg-[#102a43] px-5 py-3 text-sm font-semibold text-[#f7f1e8] transition hover:bg-[#0b1f33]"
+              className="rounded-full bg-[#102a43] px-5 py-3 text-sm font-semibold text-[#f7f1e8] transition hover:bg-[#0b1f33] sm:w-auto w-full"
             >
               Send
             </button>
@@ -641,13 +642,13 @@ function DashboardPage() {
         </p>
         {!liveNotifications.length ? (
           <div className="empty-state mt-5 rounded-[1.5rem] p-8 text-center">
-            <h3 className="display-serif text-3xl">Coming Soon</h3>
+            <h3 className="display-serif text-2xl sm:text-3xl">Coming Soon</h3>
             <p className="mt-2 text-sm text-[#52606d]">
               Notifications will show up here in real time.
             </p>
           </div>
         ) : (
-          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {liveNotifications.map((notification) => (
               <article key={notification.id} className="rounded-[1.25rem] bg-white p-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#b45309]">

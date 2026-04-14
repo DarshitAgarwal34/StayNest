@@ -7,7 +7,13 @@ import { connectSocket } from '../../socket';
 
 function SignupAdmin() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    dob: '',
+    password: '',
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -60,6 +66,21 @@ function SignupAdmin() {
           onChange={(e) => setForm((current) => ({ ...current, email: e.target.value }))}
           className="w-full rounded-[1.25rem] border border-[#102a43]/10 bg-white px-4 py-3 outline-none"
           placeholder="admin@staynest.com"
+        />
+        <input
+          type="tel"
+          required
+          value={form.phone}
+          onChange={(e) => setForm((current) => ({ ...current, phone: e.target.value }))}
+          className="w-full rounded-[1.25rem] border border-[#102a43]/10 bg-white px-4 py-3 outline-none"
+          placeholder="Phone number"
+        />
+        <input
+          type="date"
+          required
+          value={form.dob}
+          onChange={(e) => setForm((current) => ({ ...current, dob: e.target.value }))}
+          className="w-full rounded-[1.25rem] border border-[#102a43]/10 bg-white px-4 py-3 outline-none"
         />
         <input
           type="password"

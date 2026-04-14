@@ -82,6 +82,15 @@ function MyPropertiesPage() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {mine.map((property) => (
             <article key={property.id} className="soft-panel rounded-[1.75rem] p-6">
+              {property.images?.[0]?.image_url?.trim() ? (
+                <img
+                  src={property.images[0].image_url.trim()}
+                  alt={property.title || 'Property image'}
+                  className="mb-4 h-44 w-full rounded-[1.25rem] bg-[#f7f1e8] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : null}
               <p className="text-lg font-semibold text-[#102a43]">{property.title}</p>
               <p className="mt-2 text-[#52606d]">{property.location}</p>
               <p className="mt-4 text-2xl font-black text-[#b45309]">Rs {property.rent}</p>

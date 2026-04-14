@@ -110,6 +110,11 @@ export const fetchServices = async () => {
   return response.data;
 };
 
+export const requestService = async (serviceId) => {
+  const response = await api.post(`/services/${serviceId}/request`);
+  return response.data;
+};
+
 export const createPost = async (postData) => {
   const response = await api.post('/posts', {
     content: postData.content,
@@ -177,7 +182,21 @@ export const joinConversationThread = async (conversationId) => {
 };
 
 export const createService = async (payload) => {
-  const response = await api.post('/services', payload);
+  const formData = new FormData();
+
+  formData.append('title', payload.title);
+  formData.append('description', payload.description || '');
+  formData.append('price', String(payload.price));
+  formData.append('location', payload.location);
+
+  if (payload.image) {
+    formData.append('image', payload.image);
+  }
+
+  const response = await api.post('/services', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
   return response.data;
 };
 
@@ -188,6 +207,56 @@ export const deleteService = async (serviceId) => {
 
 export const fetchAdminOverview = async () => {
   const response = await api.get('/admin/overview');
+  return response.data;
+};
+
+export const fetchAdminUsers = async () => {
+  const response = await api.get('/admin/users');
+  return response.data;
+};
+
+export const deleteAdminUser = async (userId) => {
+  const response = await api.delete(`/admin/users/${userId}`);
+  return response.data;
+};
+
+export const fetchAdminProperties = async () => {
+  const response = await api.get('/admin/properties');
+  return response.data;
+};
+
+export const deleteAdminProperty = async (propertyId) => {
+  const response = await api.delete(`/admin/properties/${propertyId}`);
+  return response.data;
+};
+
+export const fetchAdminPosts = async () => {
+  const response = await api.get('/admin/posts');
+  return response.data;
+};
+
+export const deleteAdminPost = async (postId) => {
+  const response = await api.delete(`/admin/posts/${postId}`);
+  return response.data;
+};
+
+export const fetchAdminServices = async () => {
+  const response = await api.get('/admin/services');
+  return response.data;
+};
+
+export const deleteAdminService = async (serviceId) => {
+  const response = await api.delete(`/admin/services/${serviceId}`);
+  return response.data;
+};
+
+export const fetchAdminReports = async () => {
+  const response = await api.get('/admin/reports');
+  return response.data;
+};
+
+export const markReportRead = async (reportId) => {
+  const response = await api.patch(`/admin/reports/${reportId}/read`);
   return response.data;
 };
 

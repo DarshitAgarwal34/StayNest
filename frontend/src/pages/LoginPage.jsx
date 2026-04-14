@@ -9,9 +9,9 @@ function LoginPage() {
 
   return (
     <section className="space-y-8">
-      <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
+      <div className="soft-panel rounded-[2.25rem] px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">Login</p>
-        <h1 className="display-serif mt-4 text-5xl text-[#102a43] sm:text-6xl">
+        <h1 className="display-serif mt-4 text-3xl text-[#102a43] sm:text-5xl lg:text-6xl">
           Choose a role to continue.
         </h1>
         <p className="mt-4 max-w-2xl text-[#52606d]">
@@ -19,7 +19,7 @@ function LoginPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
           <Link
             key={card.href}

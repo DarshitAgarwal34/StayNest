@@ -16,14 +16,14 @@ function AuthShell({
 
   return (
     <section className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-      <aside className={`soft-panel overflow-hidden rounded-[2.25rem] bg-gradient-to-br ${accentStyles[accent] || accentStyles.student} p-8 text-[#f7f1e8] shadow-[0_30px_70px_rgba(16,42,67,0.2)]`}>
+      <aside className={`soft-panel overflow-hidden rounded-[2.25rem] bg-gradient-to-br ${accentStyles[accent] || accentStyles.student} p-6 text-[#f7f1e8] shadow-[0_30px_70px_rgba(16,42,67,0.2)] sm:p-8`}>
         <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.28em] text-white/85">
           {badge}
         </div>
-        <h1 className="display-serif mt-6 text-5xl leading-[0.95] sm:text-6xl">
+        <h1 className="display-serif mt-6 text-3xl leading-[0.95] sm:text-5xl lg:text-6xl">
           {title}
         </h1>
-        <p className="mt-5 max-w-xl text-base leading-7 text-white/78">
+        <p className="mt-5 max-w-xl text-sm leading-7 text-white/78 sm:text-base">
           {description}
         </p>
 
@@ -39,28 +39,28 @@ function AuthShell({
           ))}
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             to="/"
-            className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#102a43] transition hover:-translate-y-0.5"
+            className="rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-[#102a43] transition hover:-translate-y-0.5"
           >
             Back home
           </Link>
           <Link
             to="/community"
-            className="rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+            className="rounded-full border border-white/20 bg-white/10 px-5 py-3 text-center text-sm font-semibold text-white transition hover:-translate-y-0.5"
           >
             Explore community
           </Link>
         </div>
       </aside>
 
-      <div className="soft-panel rounded-[2.25rem] p-6 sm:p-8">
+      <div className="soft-panel rounded-[2.25rem] p-5 sm:p-8">
         <div className="max-w-xl">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">
             {badge}
           </p>
-          <h2 className="display-serif mt-3 text-4xl text-[#102a43]">{title}</h2>
+          <h2 className="display-serif mt-3 text-2xl text-[#102a43] sm:text-4xl">{title}</h2>
           <p className="mt-3 text-sm leading-7 text-[#52606d]">{description}</p>
         </div>
 

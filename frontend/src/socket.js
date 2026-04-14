@@ -25,6 +25,9 @@ export const connectSocket = () => {
   const token = getToken();
 
   if (!token) {
+    if (socket.connected) {
+      socket.disconnect();
+    }
     return socket;
   }
 
@@ -51,6 +54,8 @@ export const disconnectSocket = () => {
   if (socketInstance?.connected) {
     socketInstance.disconnect();
   }
+
+  socketInstance = undefined;
 };
 
 export default getSocket;

@@ -86,6 +86,15 @@ function MyServicesPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {mine.map((service) => (
             <article key={service.id} className="soft-panel rounded-[1.75rem] p-6">
+              {service.image_url ? (
+                <img
+                  src={service.image_url}
+                  alt={service.title || 'Service image'}
+                  className="mb-4 h-44 w-full rounded-[1.25rem] bg-[#f7f1e8] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : null}
               <p className="text-lg font-semibold text-[#102a43]">{service.title}</p>
               <p className="mt-2 text-[#52606d]">{service.description || 'No description added.'}</p>
               <div className="mt-4 flex flex-wrap items-center justify-between gap-3">

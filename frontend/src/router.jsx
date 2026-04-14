@@ -19,8 +19,12 @@ import NeedHelpPage from './pages/NeedHelpPage';
 import NotificationsPage from './pages/NotificationsPage';
 import PropertiesPage from './pages/PropertiesPage';
 import ProfilePage from './pages/ProfilePage';
+import ServicesPage from './pages/ServicesPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminListingsPage from './pages/admin/AdminListingsPage';
+import AdminPostsPage from './pages/admin/AdminPostsPage';
+import AdminReportsPage from './pages/admin/AdminReportsPage';
 
 // 🔥 NEW ROLE AUTH PAGES
 import LoginStudent from './pages/auth/LoginStudent';
@@ -41,6 +45,14 @@ export const router = createBrowserRouter([
       // 🌍 PUBLIC
       { index: true, element: <HomePage /> },
       { path: 'properties', element: <PropertiesPage /> },
+      {
+        path: 'services',
+        element: (
+          <ProtectedRoute allowedRoles={['student', 'renter', 'service_provider', 'admin']}>
+            <ServicesPage />
+          </ProtectedRoute>
+        ),
+      },
       { path: 'community', element: <CommunityPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'need-help', element: <NeedHelpPage /> },
@@ -62,6 +74,14 @@ export const router = createBrowserRouter([
       // 🔐 PROTECTED
       {
         path: 'dashboard',
+        element: (
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/:role',
         element: (
           <ProtectedRoute>
             <DashboardPage />
@@ -95,7 +115,7 @@ export const router = createBrowserRouter([
       {
         path: 'my-services',
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['service_provider', 'admin']}>
             <MyServicesPage />
           </ProtectedRoute>
         ),
@@ -194,13 +214,7 @@ export const router = createBrowserRouter([
         path: 'admin/listings',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Total Listings"
-              description="Review all properties and services from one moderation view."
-              points={[
-                { title: 'Marketplace overview', text: 'Track active listings without opening each record.', label: 'Admin' },
-              ]}
-            />
+            <AdminListingsPage />
           </ProtectedRoute>
         ),
       },
@@ -208,13 +222,7 @@ export const router = createBrowserRouter([
         path: 'admin/posts',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Total Posts"
-              description="Monitor the community feed and post volume."
-              points={[
-                { title: 'Content counts', text: 'See how the community conversation is growing.', label: 'Admin' },
-              ]}
-            />
+            <AdminPostsPage />
           </ProtectedRoute>
         ),
       },
@@ -222,13 +230,7 @@ export const router = createBrowserRouter([
         path: 'admin/reports',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Reports"
-              description="Handle flagged content, complaints, and platform issues."
-              points={[
-                { title: 'Review queue', text: 'Track reports that need attention or escalation.', label: 'Admin' },
-              ]}
-            />
+            <AdminReportsPage />
           </ProtectedRoute>
         ),
       },
@@ -236,13 +238,7 @@ export const router = createBrowserRouter([
         path: 'admin/students',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Manage Students"
-              description="Moderate and support student accounts."
-              points={[
-                { title: 'Student tools', text: 'Manage access and profile health for student users.', label: 'Admin' },
-              ]}
-            />
+            <AdminUsersPage />
           </ProtectedRoute>
         ),
       },
@@ -250,13 +246,7 @@ export const router = createBrowserRouter([
         path: 'admin/services',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Manage Services"
-              description="Review and moderate service providers."
-              points={[
-                { title: 'Provider tools', text: 'Keep service listings and accounts in order.', label: 'Admin' },
-              ]}
-            />
+            <AdminListingsPage />
           </ProtectedRoute>
         ),
       },
@@ -264,13 +254,7 @@ export const router = createBrowserRouter([
         path: 'admin/moderation',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Content Moderation"
-              description="Remove fake posts and keep the platform trustworthy."
-              points={[
-                { title: 'Moderation queue', text: 'See posts that need review, removal, or follow-up.', label: 'Admin' },
-              ]}
-            />
+            <AdminPostsPage />
           </ProtectedRoute>
         ),
       },
@@ -278,13 +262,7 @@ export const router = createBrowserRouter([
         path: 'admin/fake-posts',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Remove Fake Posts"
-              description="Act quickly on suspicious or misleading posts."
-              points={[
-                { title: 'Removal tools', text: 'This page is where fake content can be cleared.', label: 'Admin' },
-              ]}
-            />
+            <AdminPostsPage />
           </ProtectedRoute>
         ),
       },
@@ -292,13 +270,7 @@ export const router = createBrowserRouter([
         path: 'admin/complaints',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Handle Complaints"
-              description="Track issues reported by users and resolve them cleanly."
-              points={[
-                { title: 'Complaint desk', text: 'Keep complaint handling visible and actionable.', label: 'Admin' },
-              ]}
-            />
+            <AdminReportsPage />
           </ProtectedRoute>
         ),
       },
@@ -306,13 +278,7 @@ export const router = createBrowserRouter([
         path: 'admin/renters',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
-            <SectionPage
-              title="Manage Renters"
-              description="Review renter accounts and property activity."
-              points={[
-                { title: 'Renter controls', text: 'Handle the renter role from one place.', label: 'Admin' },
-              ]}
-            />
+            <AdminUsersPage />
           </ProtectedRoute>
         ),
       },

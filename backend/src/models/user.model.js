@@ -86,6 +86,19 @@ const UserModel = {
     return rows[0] || null;
   },
 
+  async findByEmailAndRole(
+    email,
+    role,
+    { includePassword = false } = {}
+  ) {
+    const columns = includePassword ? userSelectWithPassword : baseUserSelect;
+    const rows = await query(
+      `${columns} WHERE email = ? AND role = ? LIMIT 1`,
+      [email, role]
+    );
+    return rows[0] || null;
+  },
+
   async findAll() {
     return query(`${baseUserSelect} ORDER BY id DESC`);
   },

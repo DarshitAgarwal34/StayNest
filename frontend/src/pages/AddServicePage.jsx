@@ -10,13 +10,21 @@ function AddServicePage() {
     description: '',
     price: '',
     location: '',
+    image: null,
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [preview, setPreview] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files?.[0] || null;
+    setForm((current) => ({ ...current, image: file }));
+    setPreview(file ? URL.createObjectURL(file) : '');
   };
 
   const handleSubmit = async (event) => {
@@ -40,12 +48,12 @@ function AddServicePage() {
   return (
     <section className="space-y-8">
       <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
-        <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">Service Provider</p>
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">Service Listing</p>
         <h1 className="display-serif mt-4 text-5xl text-[#102a43] sm:text-6xl">
           Add a service listing.
         </h1>
         <p className="mt-4 max-w-2xl text-[#52606d]">
-          Create a real service entry with price, location, and description.
+          Create a real service entry with price, location, description, and a cover image.
         </p>
       </div>
 
@@ -89,6 +97,19 @@ function AddServicePage() {
           rows="5"
           className="w-full rounded-[1.25rem] border border-[#102a43]/10 px-4 py-3"
         />
+
+        <label className="block rounded-[1.25rem] border border-dashed border-[#102a43]/20 bg-[#f7f1e8] px-4 py-4">
+          <span className="mb-2 block text-sm font-semibold text-[#102a43]">Service image</span>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+        </label>
+
+        {preview ? (
+          <img
+            src={preview}
+            alt="Service preview"
+            className="h-56 w-full rounded-[1.5rem] object-cover"
+          />
+        ) : null}
 
         {error ? <p className="rounded-[1.25rem] bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p> : null}
 

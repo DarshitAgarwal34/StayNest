@@ -34,11 +34,11 @@ const roles = [
 function RoleChoicePage({ mode = 'login' }) {
   return (
     <section className="space-y-8">
-      <div className="soft-panel rounded-[2.25rem] px-6 py-8 sm:px-10">
+      <div className="soft-panel rounded-[2.25rem] px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#b45309]">
           {mode === 'login' ? 'Login' : 'Signup'}
         </p>
-        <h1 className="display-serif mt-4 text-5xl text-[#102a43] sm:text-6xl">
+        <h1 className="display-serif mt-4 text-3xl text-[#102a43] sm:text-5xl lg:text-6xl">
           Choose your path.
         </h1>
         <p className="mt-4 max-w-2xl text-[#52606d]">
@@ -46,7 +46,7 @@ function RoleChoicePage({ mode = 'login' }) {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {roles.map((role) => (
           <article
             key={role.role}
@@ -57,16 +57,16 @@ function RoleChoicePage({ mode = 'login' }) {
             </p>
             <h2 className="display-serif mt-3 text-3xl text-[#102a43]">{role.title}</h2>
             <p className="mt-3 text-sm leading-7 text-[#52606d]">{role.description}</p>
-            <div className="mt-5 flex gap-2">
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
               <Link
                 to={role.login}
-                className="rounded-full bg-[#102a43] px-4 py-2 text-sm font-semibold text-[#f7f1e8]"
+                className="rounded-full bg-[#102a43] px-4 py-2 text-center text-sm font-semibold text-[#f7f1e8]"
               >
                 Login
               </Link>
               <Link
                 to={role.signup}
-                className="rounded-full border border-[#102a43]/10 bg-[#f7f1e8] px-4 py-2 text-sm font-semibold text-[#102a43]"
+                className="rounded-full border border-[#102a43]/10 bg-[#f7f1e8] px-4 py-2 text-center text-sm font-semibold text-[#102a43]"
               >
                 Signup
               </Link>

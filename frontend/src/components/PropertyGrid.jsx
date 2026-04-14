@@ -36,7 +36,25 @@
           key={property.id ?? property.title ?? index}
           className="overflow-hidden rounded-[1.75rem] border border-[#102a43]/8 bg-white shadow-[0_18px_45px_rgba(16,42,67,0.08)]"
         >
-          <div className={`h-48 ${index % 3 === 0 ? 'bg-[#102a43]' : index % 3 === 1 ? 'bg-[#d97706]' : 'bg-[#6b8e72]'}`} />
+          {property.images?.[0]?.image_url?.trim() ? (
+            <img
+              src={property.images[0].image_url.trim()}
+              alt={property.title || 'Property image'}
+              className="h-48 w-full bg-[#f7f1e8] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div
+              className={`h-48 ${
+                index % 3 === 0
+                  ? 'bg-[#102a43]'
+                  : index % 3 === 1
+                    ? 'bg-[#d97706]'
+                    : 'bg-[#6b8e72]'
+              }`}
+            />
+          )}
           <div className="p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
