@@ -110,6 +110,11 @@ export const fetchServices = async () => {
   return response.data;
 };
 
+export const forgotPassword = async (payload) => {
+  const response = await api.post('/auth/forgot-password', payload);
+  return response.data;
+};
+
 export const requestService = async (serviceId) => {
   const response = await api.post(`/services/${serviceId}/request`);
   return response.data;

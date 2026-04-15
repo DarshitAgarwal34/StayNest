@@ -16,3 +16,10 @@ export const loginSchema = z.object({
   password: z.string().min(1),
   role: z.enum(["student", "renter", "service_provider", "admin"]),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email"),
+  role: z.enum(["student", "renter", "service_provider", "admin"]),
+  dob: z.string().min(1, "Date of birth is required"),
+  new_password: z.string().min(6, "Password must be at least 6 characters"),
+});
